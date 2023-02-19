@@ -1,0 +1,19 @@
+{
+  "name": "nodejs_2",
+  "version": "1.0.0",
+  "description": "Create a API Rest",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Marcelin97/NodeJS_2.git"
+  },
+  "author": "Loïs Marcelin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Marcelin97/NodeJS_2/issues"
+  },
+  "homepage": "https://github.com/Marcelin97/NodeJS_2#readme"
+}
