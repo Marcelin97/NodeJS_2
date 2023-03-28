@@ -22,7 +22,7 @@ app.get('/', (req, res) => res.send('Hello, Express !'))
 app.get('/api/pokemons/:id', (req, res)=> { // j'utilise ma liste de pokemon que j'ai importé ligne 3
  const id = parseInt(req.params.id) // récupérer un paramètre dans une url grâce la propriété params de la requête
  const pokemon = pokemons.find(pokemon => pokemon.id === id) // j'utilise la méthode find pour récupérer un pokemon en fonction d'une condiction. Ici je veux le pokemon qui le meme id que celui de ma requête
-res.send(`Vous avez demandé le pokémon n ${pokemon.name}`)
+ res.json(pokemon)
 })
 
 
