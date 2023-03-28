@@ -15,5 +15,14 @@ const port = 3000
 // l'objet res correspond à la response, c'est l'object que l'on doit renvoyé à notre client
 app.get('/', (req, res) => res.send('Hello, Express !'))
 
+// définition d'un point de terminaison
+// Point de terminaison Express = app.METHODE(CHEMIN, GESTIONNAIRE(req, res))
+
+app.get('/api/pokemons/:id', (req, res)=> {
+ const id = req.params.id // récupérer un paramètre dans une url grâce la propriété params de la requête
+res.send(`Vous avez demandé le pokémon n ${id}`)
+})
+
 // je démarre l'api rest sur le port 3000 et j'affiche un message
 app.listen(port,()=> console.log(`Notre application Node est démarrée sur : http://localhost:${port}`) )
+
