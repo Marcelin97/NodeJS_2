@@ -1,5 +1,6 @@
 // I get the package express from module node
 const express = require('express')
+let pokemons = require('./mock.pokemon.js'); // j'importe ma liste de pokémons
 
 // on crée une instance d'une application express
 // c'est le petit serveur sur lequel va fonctionné notre app
@@ -18,9 +19,10 @@ app.get('/', (req, res) => res.send('Hello, Express !'))
 // définition d'un point de terminaison
 // Point de terminaison Express = app.METHODE(CHEMIN, GESTIONNAIRE(req, res))
 
-app.get('/api/pokemons/:id', (req, res)=> {
- const id = req.params.id // récupérer un paramètre dans une url grâce la propriété params de la requête
-res.send(`Vous avez demandé le pokémon n ${id}`)
+app.get('/api/pokemons/:id', (req, res)=> { // j'utilise ma liste de pokemon que j'ai importé ligne 3
+ const id = parseInt(req.params.id) // récupérer un paramètre dans une url grâce la propriété params de la requête
+ const pokemon = pokemons.find(pokemon => pokemon.id === id) // j'utilise la méthode find pour récupérer un pokemon en fonction d'une condiction. Ici je veux le pokemon qui le meme id que celui de ma requête
+res.send(`Vous avez demandé le pokémon n ${pokemon.name}`)
 })
 
 // je démarre l'api rest sur le port 3000 et j'affiche un message
