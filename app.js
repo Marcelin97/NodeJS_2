@@ -25,6 +25,10 @@ app.get('/api/pokemons/:id', (req, res)=> { // j'utilise ma liste de pokemon que
 res.send(`Vous avez demandé le pokémon n ${pokemon.name}`)
 })
 
+
+app.get('/api/pokemons/', (req, res) =>{
+    res.send(`Il y a ${pokemons.length} pokémons dans le pokédex`)
+})
 // je démarre l'api rest sur le port 3000 et j'affiche un message
 app.listen(port,()=> console.log(`Notre application Node est démarrée sur : http://localhost:${port}`) )
 
