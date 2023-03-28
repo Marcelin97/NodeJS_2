@@ -1,5 +1,6 @@
 // I get the package express from module node
 const express = require('express')
+const { success } = require('./helper.js') // je récupère uniquement la méthode success
 let pokemons = require('./mock.pokemon.js'); // j'importe ma liste de pokémons
 
 // on crée une instance d'une application express
@@ -20,14 +21,17 @@ app.get('/', (req, res) => res.send('Hello, Express !'))
 // Point de terminaison Express = app.METHODE(CHEMIN, GESTIONNAIRE(req, res))
 
 app.get('/api/pokemons/:id', (req, res)=> { // j'utilise ma liste de pokemon que j'ai importé ligne 3
- const id = parseInt(req.params.id) // récupérer un paramètre dans une url grâce la propriété params de la requête
- const pokemon = pokemons.find(pokemon => pokemon.id === id) // j'utilise la méthode find pour récupérer un pokemon en fonction d'une condiction. Ici je veux le pokemon qui le meme id que celui de ma requête
- res.json(pokemon)
+ const id = parseInt(req.params.id); // récupérer un paramètre dans une url grâce la propriété params de la requête
+ const pokemon = pokemons.find(pokemon => pokemon.id === id); // j'utilise la méthode find pour récupérer un pokemon en fonction d'une condiction. Ici je veux le pokemon qui le meme id que celui de ma requête
+ const message = "j'ai trouvé un pokémon";
+ res.json(success(message, pokemon));
 })
 
 
 app.get('/api/pokemons/', (req, res) =>{
-    res.send(`Il y a ${pokemons.length} pokémons dans le pokédex`)
+    // res.send(`Il y a ${pokemons.length} pokémons dans le pokédex`)
+    const message = "Voici la liste de tous les pokémons";
+    res.json(success(message, pokemons));
 })
 // je démarre l'api rest sur le port 3000 et j'affiche un message
 app.listen(port,()=> console.log(`Notre application Node est démarrée sur : http://localhost:${port}`) )
