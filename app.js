@@ -1,5 +1,6 @@
 // I get the package express from module node
 const express = require('express')
+const morgan = require('morgan')
 const { success } = require('./helper.js') // je récupère uniquement la méthode success
 let pokemons = require('./mock.pokemon.js'); // j'importe ma liste de pokémons
 
@@ -11,11 +12,7 @@ const port = 3000
 
 // * MIDDLEWARES
 // add looger pour logger les requête reçu par notre api
-const logger = (req, res, next) => {
-    console.log(`URL : ${req.url}`)
-    next()
-}
-app.use(logger);
+app.use(morgan('dev'))
 
 // * ROUTES
 // premier point de terminaison
