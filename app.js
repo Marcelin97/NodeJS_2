@@ -9,6 +9,15 @@ const app = express()
 // le port de démarrage de l'API REST
 const port = 3000
 
+// * MIDDLEWARES
+// add looger pour logger les requête reçu par notre api
+const logger = (req, res, next) => {
+    console.log(`URL : ${req.url}`)
+    next()
+}
+app.use(logger);
+
+// * ROUTES
 // premier point de terminaison
 // la méthode ici est "get" est qui prend en paramètre 2 éléments
 // 1 élément : le chemin de la requête / le chemin de la route ici c'est la route par défaut '/'
@@ -33,6 +42,7 @@ app.get('/api/pokemons/', (req, res) =>{
     const message = "Voici la liste de tous les pokémons";
     res.json(success(message, pokemons));
 })
+
 // je démarre l'api rest sur le port 3000 et j'affiche un message
 app.listen(port,()=> console.log(`Notre application Node est démarrée sur : http://localhost:${port}`) )
 
