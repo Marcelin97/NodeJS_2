@@ -2,6 +2,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const favicon = require("serve-favicon");
+const bodyParser = require("body-parser");
 const { success, getUniqueId } = require("./helper.js"); // je récupère uniquement la méthode success
 let pokemons = require("./mock.pokemon.js"); // j'importe ma liste de pokémons
 
@@ -14,8 +15,9 @@ const port = 3000;
 // * MIDDLEWARES
 // add looger pour logger les requête reçu par notre api
 app
-    .use(favicon(__dirname + "/favicon.ico"))
-    .use(morgan("dev"));
+  .use(favicon(__dirname + "/favicon.ico"))
+  .use(morgan("dev"))
+  .use(bodyParser.json()); // je parse toutes les données entrante dans mon application
 
 // * ROUTES
 // premier point de terminaison
@@ -31,10 +33,10 @@ app.get("/", (req, res) => res.send("Hello, Express !"));
 
 // * GET ALL POKEMONS
 app.get("/api/pokemons/", (req, res) => {
-    // res.send(`Il y a ${pokemons.length} pokémons dans le pokédex`)
-    const message = "Voici la liste de tous les pokémons";
-    res.json(success(message, pokemons));
-  });
+  // res.send(`Il y a ${pokemons.length} pokémons dans le pokédex`)
+  const message = "Voici la liste de tous les pokémons";
+  res.json(success(message, pokemons));
+});
 
 // * GET A POKEMON
 app.get("/api/pokemons/:id", (req, res) => {
@@ -45,17 +47,28 @@ app.get("/api/pokemons/:id", (req, res) => {
   res.json(success(message, pokemon));
 });
 
-
 // * ADD A POKEMON
-app.post('/api/pokemons', (req, res) => {
-    const id = getUniqueId(pokemons)
+app.post("/api/pokemons", (req, res) => {
+  const id = getUniqueId(pokemons);
 
-    // Via Postman je récupère le body sous le format d'une string et non un JSON => l'object est de transformer nos donnée en string en JSON
-    const pokemonCreated = { ...req.body, ...{id: id, created: new Date()}}
-    pokemons.push(pokemonCreated)
-    const message = `Le pokémon ${pokemonCreated.name} a bien été crée.`
-    res.json(success(message, pokemonCreated))
-  })
+  // Via Postman je récupère le body sous le format d'une string et non un JSON => l'object est de transformer nos donnée en string en JSON
+  const pokemonCreated = { ...req.body, ...{ id: id, created: new Date() } };
+  pokemons.push(pokemonCreated);
+  const message = `Le pokémon ${pokemonCreated.name} a bien été crée.`;
+  res.json(success(message, pokemonCreated));
+});
+
+// * UPDATE a pokemon
+app.put("/api/pokemon/update/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const pokemonUpdated = { ...req.body, id: id };
+  pokemons = pokemons.map((pokemon) => {
+    return pokemon.id === id ? pokemonUpdated : pokemon;
+  });
+  const message = `Le pokémon ${pokemonUpdated.name} a bien été modifié.`;
+  res.json(success(message, pokemonUpdated));
+});
+
 // je démarre l'api rest sur le port 3000 et j'affiche un message
 app.listen(port, () =>
   console.log(
