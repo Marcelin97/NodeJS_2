@@ -59,15 +59,24 @@ app.post("/api/pokemons", (req, res) => {
 });
 
 // * UPDATE a pokemon
-app.put("/api/pokemon/update/:id", (req, res) => {
+app.put("/api/pokemon/:id", (req, res) => {
   const id = parseInt(req.params.id);
   const pokemonUpdated = { ...req.body, id: id };
   pokemons = pokemons.map((pokemon) => {
-    return pokemon.id === id ? pokemonUpdated : pokemon;
+    return pokemon.id === id ? pokemonUpdated : pokemon; // on retourne la liste des pokemon sauf s'il y a une modification on retourne avec la modification
   });
   const message = `Le pokémon ${pokemonUpdated.name} a bien été modifié.`;
   res.json(success(message, pokemonUpdated));
 });
+
+// * DELETE a pokemon
+app.delete('/api/pokemons/:id', (req, res) => {
+    const id = parseInt(req.params.id)
+    const pokemonDeleted = pokemons.find(pokemon => pokemon.id === id)
+    pokemons = pokemons.filter(pokemon => pokemon.id !== id)
+    const message = `Le pokémon ${pokemonDeleted.name} a bien été supprimé.`
+    res.json(success(message, pokemonDeleted))
+  });
 
 // je démarre l'api rest sur le port 3000 et j'affiche un message
 app.listen(port, () =>
