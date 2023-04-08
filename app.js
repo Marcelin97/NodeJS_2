@@ -4,13 +4,31 @@ const morgan = require("morgan");
 const favicon = require("serve-favicon");
 const bodyParser = require("body-parser");
 const { success, getUniqueId } = require("./helper.js"); // je récupère uniquement la méthode success
+
 let pokemons = require("./mock.pokemon.js"); // j'importe ma liste de pokémons
+
+require("dotenv").config();
+const db = require('./models')
 
 // on crée une instance d'une application express
 // c'est le petit serveur sur lequel va fonctionné notre app
 const app = express();
 // le port de démarrage de l'API REST
 const port = 3000;
+
+//=================================>
+//* Sync models in DB
+//=================================>
+
+// Mettre force sur false une fois que j'ai fini les models pour évité que cela écrase mes données à chaque fois.
+db.sequelize.sync({ force: false }).then(() => {
+  console.log("Drop and re-sync db.");
+});
+
+//=================================>
+//* Sync models in DB
+//=================================>
+
 
 // * MIDDLEWARES
 // add looger pour logger les requête reçu par notre api
@@ -84,3 +102,6 @@ app.listen(port, () =>
     `Notre application Node est démarrée sur : http://localhost:${port}`
   )
 );
+
+
+// CONNECT TO MYSQL

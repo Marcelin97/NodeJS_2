@@ -161,3 +161,9 @@ dist
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,node
+
+/images
+logs/*
+/logs/*
+!logs/.gitkeep
+!/logs/.gitkeep
