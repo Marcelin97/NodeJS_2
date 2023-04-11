@@ -9,7 +9,7 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
   dialect: dbConfig.dialect,
 //   logging: log.debug.bind(log),
-  //   operatorsAliases: false,
+    operatorsAliases: false,
   pool: {
     max: dbConfig.pool.max,
     min: dbConfig.pool.min,
@@ -17,7 +17,9 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     idle: dbConfig.pool.idle,
   },
 });
+
 const db = {};
+
 fs.readdirSync(__dirname)
   .filter(
     (file) =>
