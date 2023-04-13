@@ -9,7 +9,7 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
   dialect: dbConfig.dialect,
 //   logging: log.debug.bind(log),
-    operatorsAliases: false,
+    // operatorsAliases: false,
   pool: {
     max: dbConfig.pool.max,
     min: dbConfig.pool.min,
@@ -39,16 +39,6 @@ Object.keys(db).forEach((modelName) => {
     db[modelName].associate(db);
   }
 });
-
-//=================================>
-// * Verify connect to the database
-sequelize.authenticate()
-.then((result) => {
-  console.log('La connexion à la base de données a bien été établie.')
-}).catch((err) => {
-  console.err(`Impossible de se connecter à la base de données ${err}`)
-});
-//=================================>
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
