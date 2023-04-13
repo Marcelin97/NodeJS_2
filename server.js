@@ -1,10 +1,10 @@
-const http = require('http');
-const db = require('./models')
+// * serveur Node
 
-//* On importe notre application : app.js
-const app = require('./app.js');
+const http = require("http");
+// On importe notre application : app.js
+const app = require("./app.js");
 
-// La fonction normalizePort renvoie un port valide, 
+// La fonction normalizePort renvoie un port valide,
 // qu'il soit fourni sous la forme d'un numéro ou d'une chaîne
 const normalizePort = (val) => {
   const port = parseInt(val, 10);
@@ -18,9 +18,10 @@ const normalizePort = (val) => {
   return false;
 };
 const port = normalizePort(process.env.PORT || "3000");
+
 app.set("port", port);
 
-// La fonction errorHandler recherche les différentes 
+// La fonction errorHandler recherche les différentes
 // erreurs et les gère de manière appropriée.
 const errorHandler = (error) => {
   if (error.syscall !== "listen") {
@@ -44,23 +45,10 @@ const errorHandler = (error) => {
   }
 };
 
-//=================================>
-//* Sync models in DB
-//=================================>
-
-// Mettre force sur false une fois que j'ai fini les models pour évité que cela écrase mes données à chaque fois.
-db.sequelize.sync({ force: true }).then(() => {
-  console.log("Drop and re-sync db.");
-});
-
-//=================================>
-//* Sync models in DB
-//=================================>
-
 // On passe à notre serveur notre application.
 const server = http.createServer(app);
 
-// Un écouteur d'évènements est également enregistré, consignant le port ou 
+// Un écouteur d'évènements est également enregistré, consignant le port ou
 // le canal nommé sur lequel le serveur s'exécute dans la console.
 server.on("error", errorHandler);
 server.on("listening", () => {

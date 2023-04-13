@@ -3,13 +3,19 @@ const fs = require("fs");
 const path = require("path");
 const basename = path.basename(__filename);
 const Sequelize = require("sequelize");
-// const log = require("../config/logger");
+const db = {};
 
-const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
-  host: dbConfig.HOST,
+// Define sequelize config
+let host = process.env.MYSQL_HOST || "localhost";
+let database = process.env.MYSQL_DATABASE || "pokedex";
+let username = process.env.MYSQL_USERNAME || "root";
+let password = process.env.MYSQL_PASSWORD || "";
+let port = process.env.MYSQL_PORT || 3306;
+
+const sequelize = new Sequelize(database, username, password, {
+  host: host,
+  port: port,
   dialect: dbConfig.dialect,
-//   logging: log.debug.bind(log),
-    // operatorsAliases: false,
   pool: {
     max: dbConfig.pool.max,
     min: dbConfig.pool.min,
@@ -18,7 +24,6 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   },
 });
 
-const db = {};
 
 fs.readdirSync(__dirname)
   .filter(
@@ -37,8 +42,19 @@ fs.readdirSync(__dirname)
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
+    console.log("[MySQL] Imported references of " + modelName);
   }
 });
+
+// Sync models in DB
+sequelize
+  .sync({ force: true })
+  .then(() => {
+    console.debug("[MySQL] Synced MySQL schemas");
+  })
+  .catch((err) => {
+    console.error("[MySQL] Error syncing schemas!");
+  });
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
