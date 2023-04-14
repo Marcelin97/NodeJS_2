@@ -2,9 +2,10 @@ const { Pokemon } = require("../models");
 const pokemons = require("../config/mock.pokemon.js");
 
 // * Import the fileSystem module
-const fs = require("fs");
+// const fs = require("fs");
 
 exports.createPokemon = async (req, res, next) => {
+  console.log("hello");
   pokemons.map((pokemon) => {
     Pokemon.create({
       name: pokemon.name,
@@ -25,4 +26,18 @@ exports.createPokemon = async (req, res, next) => {
         );
     });
   });
+};
+
+exports.getAllPokemons = (req, res, next) => {
+  Pokemon.find().then(
+    (pokemons) => {
+      res.status(200).json(pokemons);
+    }
+  ).catch(
+    (error) => {
+      res.status(400).json({
+        error: error
+      });
+    }
+  );
 };

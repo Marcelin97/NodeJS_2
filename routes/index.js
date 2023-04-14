@@ -15,6 +15,6 @@ router.use(hpp());
 const pokemonRoutes = require("./pokemon");
 
 // * on applique nos routes à notre router
-router.use("/pokemons", pokemonRoutes);
+router.use("/pokemons/", pokemonRoutes);
 
 module.exports = router;

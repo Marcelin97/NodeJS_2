@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
-// * Post controller
+// * Pokemon controller
 const pokemonsCtrl = require("../controllers/pokemon.js");
 
 //=================================>
 // * CREATE A POST
 //=================================>
-router.post("/addAll", pokemonsCtrl.createPokemon);
+router.post("/add", pokemonsCtrl.createPokemon);
+router.get('/', pokemonsCtrl.getAllPokemons);
 
 module.exports = router;

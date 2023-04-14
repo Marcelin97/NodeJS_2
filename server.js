@@ -1,5 +1,4 @@
 // * serveur Node
-
 const http = require("http");
 // On importe notre application : app.js
 const app = require("./app.js");
@@ -17,7 +16,7 @@ const normalizePort = (val) => {
   }
   return false;
 };
-const port = normalizePort(process.env.PORT || "3000");
+const port = normalizePort(process.env.PORT || "3006");
 
 app.set("port", port);
 
@@ -47,7 +46,9 @@ const errorHandler = (error) => {
 
 // On passe à notre serveur notre application.
 const server = http.createServer(app);
-
+// const server = http.createServer((req, res) => {
+//   res.end('Voilà la réponse du serveur !');
+// });
 // Un écouteur d'évènements est également enregistré, consignant le port ou
 // le canal nommé sur lequel le serveur s'exécute dans la console.
 server.on("error", errorHandler);

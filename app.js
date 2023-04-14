@@ -7,7 +7,6 @@ const fs = require('fs');
 const bodyParser = require("body-parser");
 const favicon = require("serve-favicon");
 const helmet = require('helmet');
-const db = require("./models");
 
 // Load .env configuration
 require('dotenv').config();
@@ -16,14 +15,14 @@ require('dotenv').config();
 const app = express();
 
 // J'importe mes routes qui sont mtn dans mon index.js
-const router = require("./routes/index.js");
+const routes = require("./routes/index.js");
 
 // * Config
 app
   .use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
   .use(express.static(path.join(__dirname, "public"))) // Serve static files
   .use(helmet()) // Helmet for default security
-  .use("/api", router) // Load all routes
+  .use("/api", routes) // Load all routes
 
 // * split /dual logging 
 // Sample app that will log all requests to a file using Apache format, but error responses are logged to the console:
@@ -50,26 +49,9 @@ app.use(bodyParser.json())
 // * End Limit payload size
 //=================================>
 
-// Returns a 404 response for all unregistered routes
-app.all('*', (req, res) => {
-  res.status(404).json('Resource not found');
-});
-
-//=================================>
-//* Sync models in DB
-//=================================>
-// Mettre force sur false une fois que j'ai fini les models pour évité que cela écrase mes données à chaque fois.
-db.sequelize
-  .sync({ force: true })
-  .then(() => {
-    console.log("Drop and re-sync db.");
-  })
-  .catch((err) => {
-    console.log("Failed to sync db: " + err.message);
-  });
-
-//=================================>
-//* Sync models in DB
-//=================================>
+// // Returns a 404 response for all unregistered routes
+// app.all('*', (req, res) => {
+//   res.status(404).json('Resource not found');
+// });
 
 module.exports = app;

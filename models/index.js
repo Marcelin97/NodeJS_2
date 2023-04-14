@@ -3,18 +3,12 @@ const fs = require("fs");
 const path = require("path");
 const basename = path.basename(__filename);
 const Sequelize = require("sequelize");
+let sequelize;
 const db = {};
 
-// Define sequelize config
-let host = process.env.MYSQL_HOST || "localhost";
-let database = process.env.MYSQL_DATABASE || "pokedex";
-let username = process.env.MYSQL_USERNAME || "root";
-let password = process.env.MYSQL_PASSWORD || "";
-let port = process.env.MYSQL_PORT || 3306;
-
-const sequelize = new Sequelize(database, username, password, {
-  host: host,
-  port: port,
+sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
+  host: dbConfig.HOST,
+  port: dbConfig.PORT,
   dialect: dbConfig.dialect,
   pool: {
     max: dbConfig.pool.max,
@@ -23,7 +17,6 @@ const sequelize = new Sequelize(database, username, password, {
     idle: dbConfig.pool.idle,
   },
 });
-
 
 fs.readdirSync(__dirname)
   .filter(
@@ -46,6 +39,9 @@ Object.keys(db).forEach((modelName) => {
   }
 });
 
+//=================================>
+//* Sync models in DB
+//=================================>
 // Sync models in DB
 sequelize
   .sync({ force: true })
