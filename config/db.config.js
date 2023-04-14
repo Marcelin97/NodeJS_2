@@ -1,6 +1,5 @@
 require("dotenv").config();
 const { Sequelize } = require("sequelize");
-const fs = require('fs');
 
 module.exports = {
   HOST: process.env.MYSQL_HOST || "localhost",

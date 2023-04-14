@@ -7,22 +7,25 @@ const fs = require('fs');
 const bodyParser = require("body-parser");
 const favicon = require("serve-favicon");
 const helmet = require('helmet');
+const cors = require("cors");
 
 // Load .env configuration
 require('dotenv').config();
 
 // Load express
 const app = express();
+module.exports = app;
 
 // J'importe mes routes qui sont mtn dans mon index.js
-const routes = require("./routes/index.js");
+const router = require("./routes/index.js");
 
 // * Config
 app
   .use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
   .use(express.static(path.join(__dirname, "public"))) // Serve static files
   .use(helmet()) // Helmet for default security
-  .use("/api", routes) // Load all routes
+  .use("/api", router) // Load all routes
+  .use(cors())
 
 // * split /dual logging 
 // Sample app that will log all requests to a file using Apache format, but error responses are logged to the console:
@@ -49,9 +52,7 @@ app.use(bodyParser.json())
 // * End Limit payload size
 //=================================>
 
-// // Returns a 404 response for all unregistered routes
-// app.all('*', (req, res) => {
-//   res.status(404).json('Resource not found');
-// });
-
-module.exports = app;
+// Returns a 404 response for all unregistered routes
+app.all('*', (req, res) => {
+  res.status(404).json('Resource not found');
+});

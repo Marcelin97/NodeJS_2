@@ -12,9 +12,13 @@ router.use(hpp());
 // const slowDown = require("../middleware/speedLimiter");
 
 // * All routes
+router.get("/", (req, res) => {
+    res.json("Pokedex API 1.0.0");
+  });
+  
 const pokemonRoutes = require("./pokemon");
 
 // * on applique nos routes à notre router
-router.use("/pokemons/", pokemonRoutes);
+router.use("/pokemons", pokemonRoutes);
 
 module.exports = router;

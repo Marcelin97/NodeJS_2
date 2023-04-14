@@ -5,6 +5,8 @@ const basename = path.basename(__filename);
 const Sequelize = require("sequelize");
 let sequelize;
 const db = {};
+const PokemonModel = require("../models/pokemon.js");
+const pokemons = require('../config/mock.pokemon.js')
 
 sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
@@ -17,6 +19,7 @@ sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     idle: dbConfig.pool.idle,
   },
 });
+const Pokemon = PokemonModel(sequelize, Sequelize)
 
 fs.readdirSync(__dirname)
   .filter(
@@ -44,12 +47,21 @@ Object.keys(db).forEach((modelName) => {
 //=================================>
 // Sync models in DB
 sequelize
-  .sync({ force: true })
+  .sync({ force: false })
   .then(() => {
+    pokemons.map(pokemon => {
+      Pokemon.create({
+        name: pokemon.name,
+        hp: pokemon.hp,
+        cp: pokemon.cp,
+        picture: pokemon.picture,
+        types: pokemon.types.join()
+      }).then(pokemon => console.log(pokemon.toJSON()))
+    })
     console.debug("[MySQL] Synced MySQL schemas");
   })
   .catch((err) => {
-    console.error("[MySQL] Error syncing schemas!");
+    console.error(`"[MySQL] Error syncing schemas! ${err}"`);
   });
 
 db.Sequelize = Sequelize;
