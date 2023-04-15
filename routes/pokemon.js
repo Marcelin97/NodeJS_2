@@ -9,5 +9,6 @@ const pokemonsCtrl = require("../controllers/pokemon.js");
 //=================================>
 router.post("/", pokemonsCtrl.createPokemon);
 router.get('/', pokemonsCtrl.getAllPokemons);
+router.get('/:id', pokemonsCtrl.getPokemonByPk);
 
 module.exports = router;

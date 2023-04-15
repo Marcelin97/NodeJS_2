@@ -6,7 +6,7 @@ const Sequelize = require("sequelize");
 let sequelize;
 const db = {};
 const PokemonModel = require("../models/pokemon.js");
-const pokemons = require('../config/mock.pokemon.js')
+const pokemons = require('../Fixtures/mock.pokemon.js')
 
 sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
@@ -19,6 +19,7 @@ sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     idle: dbConfig.pool.idle,
   },
 });
+
 const Pokemon = PokemonModel(sequelize, Sequelize)
 
 fs.readdirSync(__dirname)
@@ -42,6 +43,10 @@ Object.keys(db).forEach((modelName) => {
   }
 });
 
+const sequelize_fixtures = require('sequelize-fixtures');
+
+//from file
+
 //=================================>
 //* Sync models in DB
 //=================================>
@@ -49,6 +54,10 @@ Object.keys(db).forEach((modelName) => {
 sequelize
   .sync({ force: false })
   .then(() => {
+    // sequelize_fixtures.loadFile('./fixtures/mock.pokemon.js', Pokemon).then(function(){
+    //   // doStuffAfterLoad();
+    //   console.log('Complete!');
+    // });
     pokemons.map(pokemon => {
       Pokemon.create({
         name: pokemon.name,

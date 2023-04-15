@@ -20,3 +20,19 @@ exports.getAllPokemons = (req, res, next) => {
     }
   );
 };
+
+exports.getPokemonByPk = (req, res, next) => {
+  Pokemon.findByPk(req.params.id)
+      .then(pokemon => {
+        const message = 'Un pokémon a bien été trouvé.'
+        res.json({ message, data: pokemon })
+      })
+}
+
+exports.createPokemon = (req, res, next) => {
+  Pokemon.create(req.body)
+      .then(pokemon => {
+        const message = `Le pokémon ${req.body.name} a bien été crée.`
+        res.json({ message, data: pokemon })
+      })
+}

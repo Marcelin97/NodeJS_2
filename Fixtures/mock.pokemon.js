@@ -107,6 +107,6 @@ const pokemons = [
      types: ["Feu"],
      created: new Date()
     }
-   ]
-   
-   module.exports = pokemons;
+   ];
+     
+   module.exports = pokemons
