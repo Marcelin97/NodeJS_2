@@ -26,6 +26,17 @@ module.exports = (sequelize, Sequelize) => {
       types: {
         type: Sequelize.STRING,
         allowNull: false,
+        // Getter : Base de données => API Rest
+        // Aller ==>
+        get(){
+           // ["Plante", "Poison"]
+          return this.getDataValue('types').split(',')
+        },
+        // Setter : API Rest => Base de données
+        // Retour <==
+        set(types){
+          this.setDataValue('types', types.join() ) // "Plante, Poison"
+        }
       },
     },
     {

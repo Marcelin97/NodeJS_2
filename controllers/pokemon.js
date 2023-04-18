@@ -29,10 +29,17 @@ exports.getPokemonByPk = (req, res, next) => {
       })
 }
 
-exports.createPokemon = (req, res, next) => {
+exports.createPokemon = async (req, res, next) => {
   Pokemon.create(req.body)
       .then(pokemon => {
         const message = `Le pokémon ${req.body.name} a bien été crée.`
         res.json({ message, data: pokemon })
       })
+      .catch(
+        (error) => {
+          res.status(400).json({
+            error: error
+          });
+        }
+      );
 }

@@ -43,7 +43,7 @@ Object.keys(db).forEach((modelName) => {
   }
 });
 
-const sequelize_fixtures = require('sequelize-fixtures');
+// const sequelize_fixtures = require('sequelize-fixtures');
 
 //from file
 
@@ -64,7 +64,7 @@ sequelize
         hp: pokemon.hp,
         cp: pokemon.cp,
         picture: pokemon.picture,
-        types: pokemon.types.join()
+        types: pokemon.types
       }).then(pokemon => console.log(pokemon.toJSON()))
     })
     console.debug("[MySQL] Synced MySQL schemas");

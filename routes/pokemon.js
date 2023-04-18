@@ -7,7 +7,7 @@ const pokemonsCtrl = require("../controllers/pokemon.js");
 //=================================>
 // * CREATE A POST
 //=================================>
-router.post("/", pokemonsCtrl.createPokemon);
+router.post("/add", pokemonsCtrl.createPokemon);
 router.get('/', pokemonsCtrl.getAllPokemons);
 router.get('/:id', pokemonsCtrl.getPokemonByPk);
 

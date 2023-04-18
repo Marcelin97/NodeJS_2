@@ -2,6 +2,7 @@
 
 const express = require("express");
 const path = require('path');
+
 const morgan = require("morgan");
 const fs = require('fs');
 const bodyParser = require("body-parser");
@@ -14,7 +15,6 @@ require('dotenv').config();
 
 // Load express
 const app = express();
-module.exports = app;
 
 // J'importe mes routes qui sont mtn dans mon index.js
 const router = require("./routes/index.js");
@@ -56,3 +56,5 @@ app.use(bodyParser.json())
 app.all('*', (req, res) => {
   res.status(404).json('Resource not found');
 });
+
+module.exports = app;
