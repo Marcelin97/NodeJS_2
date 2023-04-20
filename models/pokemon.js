@@ -1,7 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  return sequelize.define(
-    "Pokemon",
-    {
+  const Pokemon = sequelize.define("Pokemon",{
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -45,4 +43,5 @@ module.exports = (sequelize, Sequelize) => {
       updatedAt: false, // je désactive la date de modification
     }
   );
+  return Pokemon;
 };

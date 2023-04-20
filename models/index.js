@@ -5,8 +5,7 @@ const basename = path.basename(__filename);
 const Sequelize = require("sequelize");
 let sequelize;
 const db = {};
-const PokemonModel = require("../models/pokemon.js");
-const pokemons = require('../Fixtures/mock.pokemon.js')
+// const PokemonModel = require("../models/pokemon.js");
 
 sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
@@ -20,7 +19,7 @@ sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   },
 });
 
-const Pokemon = PokemonModel(sequelize, Sequelize)
+// const Pokemon = PokemonModel(sequelize, Sequelize)
 
 fs.readdirSync(__dirname)
   .filter(
@@ -58,15 +57,15 @@ sequelize
     //   // doStuffAfterLoad();
     //   console.log('Complete!');
     // });
-    pokemons.map(pokemon => {
-      Pokemon.create({
-        name: pokemon.name,
-        hp: pokemon.hp,
-        cp: pokemon.cp,
-        picture: pokemon.picture,
-        types: pokemon.types
-      }).then(pokemon => console.log(pokemon.toJSON()))
-    })
+    // pokemons.map(pokemon => {
+    //   Pokemon.create({
+    //     name: pokemon.name,
+    //     hp: pokemon.hp,
+    //     cp: pokemon.cp,
+    //     picture: pokemon.picture,
+    //     types: pokemon.types
+    //   }).then(pokemon => console.log(pokemon.toJSON()))
+    // })
     console.debug("[MySQL] Synced MySQL schemas");
   })
   .catch((err) => {
